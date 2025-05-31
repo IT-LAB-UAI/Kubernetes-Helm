@@ -1,0 +1,63 @@
+# OpenLDAP Helm Chart Values File
+# This file contains the configuration values for deploying OpenLDAP using Helm.
+# It includes settings for the LDAP server, storage, and initial data structure.
+# Note: Make sure to change the values according to your environment and requirements.
+namespace: ldap
+
+# Image configuration
+image:
+    repository: osixia/openldap
+    tag: 1.5.0
+
+# Configuration for the OpenLDAP server
+### SENSITIVE INFORMATION ###
+ldap:
+    organisation: My-Organisation # Change this to your organisation name
+    domain: my.org.com # Change this to your domain
+    adminPassword: AdminPassword # Change this to a secure password
+    logLevel: "256"
+
+# Configuration for the OpenLDAP server
+# PVCs for data and config storage
+storage:
+    data:
+        size: 1Gi
+    config:
+        size: 512Mi
+    storageClassName: rook-ceph-block # Change this to your storage class name
+
+# Service configuration
+# Ports of the OpenLDAP are configured to use NodePort type.
+# The Pod Port 389 is mapped to NodePort 30389 for LDAP and 636 to 30636 for LDAPS. This definition is on the service.yaml file.
+nodePorts:
+    ldap: 30389
+    ldaps: 30636
+
+# Configuration for OpenLDAP
+# This is the initial LDIF file to bootstrap the LDAP server with some basic structure and dummy entries.
+# Contains organizational units and groups.
+# You can modify this to add more entries as needed.
+# This will be applied when the LDAP server is first started creating the initial structure.
+
+bootstrapLDIF: |
+    # Create 'ou=people'
+    dn: ou=people,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
+    objectClass: organizationalUnit
+    ou: people
+
+    # Create 'ou=groups'
+    dn: ou=groups,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
+    objectClass: organizationalUnit
+    ou: groups
+
+    # Create 'users' group
+    dn: cn=users,ou=groups,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
+    objectClass: groupOfNames
+    cn: users
+    member: cn=dummy,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
+
+    # Create 'admins' group
+    dn: cn=admins,ou=groups,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
+    objectClass: groupOfNames
+    cn: admins
+    member: cn=dummy,dc={{ .Values.ldap.domain | replace "." ",dc=" }}

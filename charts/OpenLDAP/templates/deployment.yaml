@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openldap
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openldap
+  template:
+    metadata:
+      labels:
+        app: openldap
+    spec:
+      volumes:
+        - name: ldap-data
+          persistentVolumeClaim:
+            claimName: ldap-data-pvc
+        - name: ldap-config
+          persistentVolumeClaim:
+            claimName: ldap-config-pvc
+        - name: ldap-init-raw
+          configMap:
+            name: ldap-init
+        - name: ldap-init
+          emptyDir: {}
+      initContainers:
+        - name: copy-ldif
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            - cp /raw/bootstrap.ldif /target/bootstrap.ldif
+          volumeMounts:
+            - name: ldap-init-raw
+              mountPath: /raw
+            - name: ldap-init
+              mountPath: /target
+      containers:
+        - name: openldap
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 389
+            - containerPort: 636
+          env:
+            - name: LDAP_ORGANISATION
+              value: {{ .Values.ldap.organisation }}
+            - name: LDAP_DOMAIN
+              value: {{ .Values.ldap.domain }}
+            - name: LDAP_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ldap-secret
+                  key: LDAP_ADMIN_PASSWORD
+            - name: LDAP_LOG_LEVEL
+              value: {{ .Values.ldap.logLevel | quote }}
+            - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
+              value: "false"
+          volumeMounts:
+            - name: ldap-data
+              mountPath: /var/lib/ldap
+            - name: ldap-config
+              mountPath: /etc/ldap/slapd.d
+            - name: ldap-init
+              mountPath: /container/service/slapd/assets/config/bootstrap/ldif/custom
