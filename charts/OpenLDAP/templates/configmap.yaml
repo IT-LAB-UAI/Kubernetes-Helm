@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
     name: ldap-init
-    namespace: { { .Values.namespace } }
+    namespace: {{ .Values.namespace }}
 data:
     bootstrap.ldif: |
         {{ tpl .Values.bootstrapLDIF . | nindent 4 }}
