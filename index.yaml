@@ -3,9 +3,9 @@ entries:
   OpenLDAP:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2025-06-01T13:54:11.391006808-04:00"
+    created: "2025-06-01T14:26:48.708962159-04:00"
     description: A Helm chart for OpenLDAP
-    digest: 716c51633a2ca0239e3af9598d6e64b183e31b5e66fdee4a58ee20e980388a94
+    digest: d6cffa5f1138d9863cbd2662d775bd2daa3f59985d46e935bf5510be996165aa
     name: OpenLDAP
     type: application
     urls:
@@ -13,13 +13,22 @@ entries:
     version: 0.1.0
   Rook-Ceph:
   - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2025-06-01T13:54:11.393612848-04:00"
-    description: A Helm chart for Rook-Ceph CSI
-    digest: fae45d34645e39a0096eb5cda108af902dc2749713b9b17e7a48178b8494c07a
+    created: "2025-06-01T14:26:48.711266068-04:00"
+    dependencies:
+    - name: preflight
+      repository: file://charts/preflight
+      version: 0.1.0
+    - name: cluster
+      repository: file://charts/cluster
+      version: 0.1.0
+    - name: storageclass
+      repository: file://charts/storageclass
+      version: 0.1.0
+    description: Rook-Ceph meta chart
+    digest: ba614427d25da930f0768e91ae4b22c9e021b7c511c6da56a3f7011912f602d6
     name: Rook-Ceph
     type: application
     urls:
     - https://it-lab-uai.github.io/Kubernetes-Helm/packages/Rook-Ceph-0.1.0.tgz
     version: 0.1.0
-generated: "2025-06-01T13:54:11.39061715-04:00"
+generated: "2025-06-01T14:26:48.708552975-04:00"
