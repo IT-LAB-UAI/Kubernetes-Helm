@@ -1,34 +1,13 @@
 apiVersion: v1
 entries:
-  OpenLDAP:
-  - apiVersion: v2
-    appVersion: 1.16.0
-    created: "2025-06-01T14:26:48.708962159-04:00"
-    description: A Helm chart for OpenLDAP
-    digest: d6cffa5f1138d9863cbd2662d775bd2daa3f59985d46e935bf5510be996165aa
-    name: OpenLDAP
-    type: application
-    urls:
-    - https://it-lab-uai.github.io/Kubernetes-Helm/packages/OpenLDAP-0.1.0.tgz
-    version: 0.1.0
-  Rook-Ceph:
-  - apiVersion: v2
-    created: "2025-06-01T14:26:48.711266068-04:00"
-    dependencies:
-    - name: preflight
-      repository: file://charts/preflight
-      version: 0.1.0
-    - name: cluster
-      repository: file://charts/cluster
-      version: 0.1.0
-    - name: storageclass
-      repository: file://charts/storageclass
-      version: 0.1.0
-    description: Rook-Ceph meta chart
-    digest: ba614427d25da930f0768e91ae4b22c9e021b7c511c6da56a3f7011912f602d6
-    name: Rook-Ceph
-    type: application
-    urls:
-    - https://it-lab-uai.github.io/Kubernetes-Helm/packages/Rook-Ceph-0.1.0.tgz
-    version: 0.1.0
-generated: "2025-06-01T14:26:48.708552975-04:00"
+    OpenLDAP:
+        - apiVersion: v2
+          appVersion: 1.16.0
+          created: "2025-06-01T14:26:48.708962159-04:00"
+          description: A Helm chart for OpenLDAP
+          digest: d6cffa5f1138d9863cbd2662d775bd2daa3f59985d46e935bf5510be996165aa
+          name: OpenLDAP
+          type: application
+          urls:
+              - https://it-lab-uai.github.io/Kubernetes-Helm/packages/OpenLDAP-0.1.0.tgz
+          version: 0.1.0
