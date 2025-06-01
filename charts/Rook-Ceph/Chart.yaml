@@ -1,6 +1,6 @@
 apiVersion: v2
-name: OpenLDAP
-description: A Helm chart for OpenLDAP
+name: Rook-Ceph
+description: A Helm chart for Rook-Ceph CSI
 type: application
 version: 0.1.0
 appVersion: "1.16.0"

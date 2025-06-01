@@ -1,0 +1,42 @@
+- name: Package Helm charts and generate index.yaml
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+      charts_dir: "charts"
+      output_dir: "packages"
+      index_url: "https://it-lab-uai.github.io/Kubernetes-Helm/packages/"
+
+  tasks:
+      - name: Remove old chart packages (*.tgz)
+        file:
+            path: "{{ item }}"
+            state: absent
+        loop: "{{ lookup('fileglob', output_dir + '/*.tgz', wantlist=True) }}"
+        when: item is match(".*\\.tgz")
+
+      - name: Find all chart directories
+        find:
+            paths: "{{ charts_dir }}"
+            file_type: directory
+            depth: 1
+        register: chart_dirs
+
+      - name: Package each chart
+        command: helm package {{ item.path }} --destination {{ output_dir }}
+        loop: "{{ chart_dirs.files }}"
+
+      - name: Generate Helm index.yaml in packages/
+        command: >
+            helm repo index {{ output_dir }}
+            --url {{ index_url }}
+
+      - name: Move index.yaml to root directory
+        command: mv {{ output_dir }}/index.yaml ./index.yaml
+
+      - name: Confirm cleanup - index.yaml should no longer be in packages/
+        file:
+            path: "{{ output_dir }}/index.yaml"
+            state: absent
+        ignore_errors: true
