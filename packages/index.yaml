@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  OpenLDAP-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-05-31T20:29:37.42820565-04:00"
+    description: A Helm chart for OpenLDAP
+    digest: c8a2332e9ae86e402d81fd8adc9025b6f45061e3133e8d028e8c1e3c086f7a45
+    name: OpenLDAP-chart
+    type: application
+    urls:
+    - https://your-domain.com/helm-charts/OpenLDAP-chart-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-05-31T20:29:37.427689369-04:00"
