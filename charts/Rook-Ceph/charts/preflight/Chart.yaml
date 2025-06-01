@@ -1,0 +1,4 @@
+apiVersion: v2
+name: preflight
+version: 0.1.0
+description: Installs CRDs and operator for Rook
