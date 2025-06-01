@@ -33,12 +33,10 @@ nodePorts:
     ldap: 30389
     ldaps: 30636
 
-# Configuration for OpenLDAP
-# This is the initial LDIF file to bootstrap the LDAP server with some basic structure and dummy entries.
-# Contains organizational units and groups.
-# You can modify this to add more entries as needed.
-# This will be applied when the LDAP server is first started creating the initial structure.
-
+# Exammple of a ConfigMap for initializing OpenLDAP with a bootstrap LDIF file
+# This file will be mounted into the OpenLDAP container to set up initial data.
+# Make sure to adjust the LDIF content according to your requirements.
+# The bootstrap LDIF file will create the initial structure of the LDAP directory.
 bootstrapLDIF: |
     # Create 'ou=people'
     dn: ou=people,dc={{ .Values.ldap.domain | replace "." ",dc=" }}
